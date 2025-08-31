@@ -1,5 +1,24 @@
+West Central Movies - Offline Admin
+Manage your movie website without coding. Update movies, schedules, and trailers, then export to JSON.
+
+
+Manage Movies
+
+Manage Schedules
+
+Export JSON
+
+Import JSON
+
+Reset Data
+Movies
+Schedules
+Preview JSON
+JSON Export Preview
+This is the data that will be exported. Copy this to your movies.json file.
+
 {
-  "last_updated": "2023-07-20",
+  "last_updated": "2025-08-31T20:42:24.856Z",
   "cinema_info": {
     "name": "West Central Movies",
     "address": "123 Movie Lane, Cinema City",
@@ -28,6 +47,18 @@
       "genre": "Comedy, Adventure, Fantasy",
       "rating": "PG-13",
       "status": "now_showing"
+    },
+    {
+      "id": 1756672893774,
+      "title": "Test 1",
+      "poster": "https://www.imdb.com/title/tt6604188/mediaviewer/rm1844034818/?ref_=tt_ov_i",
+      "trailer": "https://www.imdb.com/video/vi2988754969/?playlistId=tt6604188&ref_=tt_ov_pr_ov_vi",
+      "description": "Test 1 Description here",
+      "duration": "120 min",
+      "genre": "action",
+      "rating": "PG-13",
+      "status": "now_showing",
+      "schedules": []
     }
   ],
   "new_this_week": [
@@ -70,3 +101,12 @@
     }
   ]
 }
+
+Copy JSON to Clipboard
+How to Use This Admin Panel
+Add movies using the form above
+Add showtimes to the schedules
+Click "Export JSON" to generate your movies data
+Copy the JSON and save it as "movies.json" in your GitHub repository
+Your website will automatically update with the new data
+You can also import existing JSON data using the "Import JSON" button.
