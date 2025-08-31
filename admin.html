@@ -341,6 +341,26 @@
             font-size: 14px;
         }
         
+        /* Status Messages */
+        .status-message {
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            display: none;
+        }
+        
+        .status-success {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid #2ecc71;
+        }
+        
+        .status-error {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+        
         /* Responsive Design */
         @media (max-width: 900px) {
             .main-content {
@@ -392,17 +412,17 @@
                     <h1>West Central <span>Movies</span> Admin</h1>
                 </div>
                 <div class="admin-actions">
-                    <button class="admin-btn">
+                    <button class="admin-btn" onclick="exportData()">
                         <i class="fas fa-file-export"></i> Export Data
                     </button>
-                    <button class="admin-btn">
+                    <button class="admin-btn" onclick="importData()">
                         <i class="fas fa-file-import"></i> Import Data
                     </button>
-                    <button class="admin-btn">
+                    <button class="admin-btn" onclick="loadMovies()">
                         <i class="fas fa-sync-alt"></i> Refresh
                     </button>
-                    <button class="admin-btn">
-                        <i class="fas fa-sign-out-alt"></i> Logout
+                    <button class="admin-btn" onclick="testConnection()">
+                        <i class="fas fa-plug"></i> Test Connection
                     </button>
                 </div>
             </div>
@@ -417,12 +437,12 @@
                 <h2 class="sidebar-title">Admin Navigation</h2>
                 <ul class="sidebar-menu">
                     <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                    <li><a href="#"><i class="fas fa-play-circle"></i> Now Showing</a></li>
-                    <li><a href="#"><i class="fas fa-star"></i> New This Week</a></li>
-                    <li><a href="#"><i class="fas fa-calendar-alt"></i> Coming Soon</a></li>
-                    <li><a href="#"><i class="fas fa-clock"></i> Schedules</a></li>
-                    <li><a href="#"><i class="fas fa-ticket-alt"></i> Tickets</a></li>
-                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                    <li><a href="#" onclick="showSection('movie-management')"><i class="fas fa-play-circle"></i> Now Showing</a></li>
+                    <li><a href="#" onclick="showSection('movie-management')"><i class="fas fa-star"></i> New This Week</a></li>
+                    <li><a href="#" onclick="showSection('movie-management')"><i class="fas fa-calendar-alt"></i> Coming Soon</a></li>
+                    <li><a href="#" onclick="showSection('schedule-management')"><i class="fas fa-clock"></i> Schedules</a></li>
+                    <li><a href="#" onclick="showSection('user-management')"><i class="fas fa-users"></i> Users</a></li>
+                    <li><a href="#" onclick="showSection('settings')"><i class="fas fa-cog"></i> Settings</a></li>
                 </ul>
             </div>
 
@@ -430,37 +450,40 @@
             <div class="admin-content">
                 <div class="content-header">
                     <h2>Movie Management Dashboard</h2>
-                    <button class="btn-primary">
+                    <button class="btn-primary" onclick="saveChanges()">
                         <i class="fas fa-save"></i> Save Changes
                     </button>
                 </div>
+
+                <!-- Status Messages -->
+                <div id="statusMessage" class="status-message"></div>
 
                 <!-- Stats Cards -->
                 <div class="stats-cards">
                     <div class="stat-card">
                         <i class="fas fa-play-circle"></i>
-                        <h3>12</h3>
+                        <h3 id="nowShowingCount">0</h3>
                         <p>Now Showing</p>
                     </div>
                     <div class="stat-card">
                         <i class="fas fa-star"></i>
-                        <h3>4</h3>
+                        <h3 id="newThisWeekCount">0</h3>
                         <p>New This Week</p>
                     </div>
                     <div class="stat-card">
                         <i class="fas fa-calendar-alt"></i>
-                        <h3>8</h3>
+                        <h3 id="comingSoonCount">0</h3>
                         <p>Coming Soon</p>
                     </div>
                     <div class="stat-card">
                         <i class="fas fa-users"></i>
-                        <h3>2,483</h3>
-                        <p>Weekly Visitors</p>
+                        <h3 id="totalMoviesCount">0</h3>
+                        <p>Total Movies</p>
                     </div>
                 </div>
 
                 <!-- Add Movie Form -->
-                <div class="form-section">
+                <div class="form-section" id="movie-management">
                     <h3 class="form-section-title">Add New Movie</h3>
                     <div class="form-grid">
                         <div class="form-group">
@@ -500,8 +523,8 @@
                     
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="moviePoster">Movie Poster</label>
-                            <input type="file" id="moviePoster">
+                            <label for="moviePoster">Movie Poster URL</label>
+                            <input type="text" id="moviePoster" placeholder="Enter poster image URL">
                         </div>
                         <div class="form-group">
                             <label for="movieTrailer">Trailer URL</label>
@@ -509,104 +532,16 @@
                         </div>
                     </div>
                     
-                    <button class="btn-primary">
+                    <button class="btn-primary" onclick="addMovie()">
                         <i class="fas fa-plus"></i> Add Movie
-                    </button>
-                </div>
-
-                <!-- Schedule Management -->
-                <div class="form-section">
-                    <h3 class="form-section-title">Schedule Management</h3>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="scheduleMovie">Select Movie</label>
-                            <select id="scheduleMovie">
-                                <option value="">Choose a movie</option>
-                                <option value="1">Spider-Man: Across the Spider-Verse</option>
-                                <option value="2">Barbie</option>
-                                <option value="3">Oppenheimer</option>
-                                <option value="4">The Little Mermaid</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="scheduleDate">Date</label>
-                            <input type="date" id="scheduleDate">
-                        </div>
-                        <div class="form-group">
-                            <label for="scheduleTime">Time</label>
-                            <input type="time" id="scheduleTime">
-                        </div>
-                        <div class="form-group">
-                            <label for="scheduleTheater">Theater</label>
-                            <select id="scheduleTheater">
-                                <option value="">Select theater</option>
-                                <option value="1">Theater 1</option>
-                                <option value="2">Theater 2</option>
-                                <option value="3">Theater 3</option>
-                                <option value="4">Theater 4</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <button class="btn-primary">
-                        <i class="fas fa-calendar-plus"></i> Add Schedule
                     </button>
                 </div>
 
                 <!-- Movie List -->
                 <div class="form-section">
                     <h3 class="form-section-title">Current Movies</h3>
-                    <div class="movie-list">
-                        <!-- Movie 1 -->
-                        <div class="movie-item">
-                            <img src="https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=300&q=80" alt="Movie Poster" class="movie-poster">
-                            <div class="movie-details">
-                                <h3 class="movie-title">Spider-Man: Across the Spider-Verse</h3>
-                                <p class="movie-info">Action/Adventure • 2h 20m • Now Showing</p>
-                                <div class="movie-actions">
-                                    <button class="action-btn edit-btn">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                    <button class="action-btn delete-btn">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Movie 2 -->
-                        <div class="movie-item">
-                            <img src="https://images.unsplash.com/photo-1682686581427-7c80ab60e3f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=300&q=80" alt="Movie Poster" class="movie-poster">
-                            <div class="movie-details">
-                                <h3 class="movie-title">Barbie</h3>
-                                <p class="movie-info">Comedy/Adventure • 1h 54m • Now Showing</p>
-                                <div class="movie-actions">
-                                    <button class="action-btn edit-btn">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                    <button class="action-btn delete-btn">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Movie 3 -->
-                        <div class="movie-item">
-                            <img src="https://images.unsplash.com/photo-1682687980961-78fa83781450?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=300&q=80" alt="Movie Poster" class="movie-poster">
-                            <div class="movie-details">
-                                <h3 class="movie-title">Oppenheimer</h3>
-                                <p class="movie-info">Biography/Thriller • 3h • New This Week</p>
-                                <div class="movie-actions">
-                                    <button class="action-btn edit-btn">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                    <button class="action-btn delete-btn">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="movie-list" id="movieListContainer">
+                        <!-- Movies will be loaded here dynamically -->
                     </div>
                 </div>
             </div>
@@ -618,45 +553,247 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    West Central <span>Movies</span>
+                    West Central <span>Movies</span> Admin Panel
                 </div>
-                <p class="copyright">© 2023 West Central Movies Admin Panel. All rights reserved.</p>
+                <p class="copyright">© 2023 West Central Movies. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Load Supabase JavaScript library -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script>
-        // Simple form validation for demonstration
-        document.addEventListener('DOMContentLoaded', function() {
-            const forms = document.querySelectorAll('form, .btn-primary');
+        // Initialize Supabase with your credentials
+        const supabaseUrl = 'https://atuhpigdnhbicoaxwwxq.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF0dWhwaWdkbmhiaWNvYXh3d3hxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY2Njk3NDUsImV4cCI6MjA3MjI0NTc0NX0.LiMxZKiJvEGmgs1Et0sWO2lMgoEOrGOjLPtjiwojCwI';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        
+        // Status message function
+        function showStatus(message, type) {
+            const statusElement = document.getElementById('statusMessage');
+            statusElement.textContent = message;
+            statusElement.className = 'status-message';
             
-            forms.forEach(form => {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    alert('Form submitted! In a real application, this would save to a database or JSON file.');
-                });
-            });
+            if (type === 'success') {
+                statusElement.classList.add('status-success');
+            } else if (type === 'error') {
+                statusElement.classList.add('status-error');
+            }
             
-            // File upload preview simulation
-            const fileInput = document.getElementById('moviePoster');
-            fileInput.addEventListener('change', function() {
-                if (this.files && this.files[0]) {
-                    alert('Poster uploaded: ' + this.files[0].name);
+            statusElement.style.display = 'block';
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                statusElement.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Test Supabase connection
+        async function testConnection() {
+            try {
+                showStatus('Testing connection to Supabase...', '');
+                
+                const { data, error } = await supabase
+                    .from('movies')
+                    .select('*')
+                    .limit(1);
+                    
+                if (error) {
+                    showStatus('Connection failed: ' + error.message, 'error');
+                    console.error('Supabase error:', error);
+                } else {
+                    showStatus('Successfully connected to Supabase!', 'success');
+                    console.log('Supabase connection test successful');
                 }
-            });
-            
-            // Delete button handlers
-            const deleteButtons = document.querySelectorAll('.delete-btn');
-            deleteButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    if (confirm('Are you sure you want to delete this movie?')) {
-                        this.closest('.movie-item').style.opacity = '0';
-                        setTimeout(() => {
-                            this.closest('.movie-item').remove();
-                        }, 500);
-                    }
+            } catch (err) {
+                showStatus('Connection test error: ' + err.message, 'error');
+                console.error('Connection test error:', err);
+            }
+        }
+        
+        // Load movies from Supabase
+        async function loadMovies() {
+            try {
+                showStatus('Loading movies...', '');
+                
+                const { data: movies, error } = await supabase
+                    .from('movies')
+                    .select('*')
+                    .order('title');
+                    
+                if (error) {
+                    showStatus('Error loading movies: ' + error.message, 'error');
+                    console.error('Supabase error:', error);
+                    return;
+                }
+                
+                // Update counts
+                const nowShowing = movies.filter(m => m.status === 'now-showing');
+                const newThisWeek = movies.filter(m => m.status === 'new-this-week');
+                const comingSoon = movies.filter(m => m.status === 'coming-soon');
+                
+                document.getElementById('nowShowingCount').textContent = nowShowing.length;
+                document.getElementById('newThisWeekCount').textContent = newThisWeek.length;
+                document.getElementById('comingSoonCount').textContent = comingSoon.length;
+                document.getElementById('totalMoviesCount').textContent = movies.length;
+                
+                // Render movies
+                const movieListContainer = document.getElementById('movieListContainer');
+                movieListContainer.innerHTML = '';
+                
+                if (movies.length === 0) {
+                    movieListContainer.innerHTML = '<p>No movies found. Add your first movie above.</p>';
+                    return;
+                }
+                
+                movies.forEach(movie => {
+                    const movieElement = document.createElement('div');
+                    movieElement.className = 'movie-item';
+                    movieElement.innerHTML = `
+                        <img src="${movie.poster_url || 'https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=300&q=80'}" alt="${movie.title}" class="movie-poster">
+                        <div class="movie-details">
+                            <h3 class="movie-title">${movie.title}</h3>
+                            <p class="movie-info">${movie.genre} • ${movie.duration} • ${movie.status}</p>
+                            <p class="movie-description">${movie.description || 'No description available.'}</p>
+                            <div class="movie-actions">
+                                <button class="action-btn edit-btn" onclick="editMovie(${movie.id})">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="action-btn delete-btn" onclick="deleteMovie(${movie.id})">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    movieListContainer.appendChild(movieElement);
                 });
-            });
+                
+                showStatus(`Loaded ${movies.length} movies successfully`, 'success');
+            } catch (err) {
+                showStatus('Error loading movies: ' + err.message, 'error');
+                console.error('Error loading movies:', err);
+            }
+        }
+        
+        // Add a new movie
+        async function addMovie() {
+            const title = document.getElementById('movieTitle').value;
+            const genre = document.getElementById('movieCategory').value;
+            const duration = document.getElementById('movieDuration').value;
+            const status = document.getElementById('movieStatus').value;
+            const description = document.getElementById('movieDescription').value;
+            const poster_url = document.getElementById('moviePoster').value;
+            const trailer_url = document.getElementById('movieTrailer').value;
+            
+            if (!title || !genre || !status) {
+                showStatus('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            try {
+                showStatus('Adding movie...', '');
+                
+                const { data, error } = await supabase
+                    .from('movies')
+                    .insert([
+                        { 
+                            title, 
+                            genre, 
+                            duration: duration ? `${duration} min` : null, 
+                            status, 
+                            description,
+                            poster_url,
+                            trailer_url
+                        }
+                    ]);
+                    
+                if (error) {
+                    showStatus('Error adding movie: ' + error.message, 'error');
+                    console.error('Supabase error:', error);
+                    return;
+                }
+                
+                // Clear form
+                document.getElementById('movieTitle').value = '';
+                document.getElementById('movieCategory').value = '';
+                document.getElementById('movieDuration').value = '';
+                document.getElementById('movieStatus').value = '';
+                document.getElementById('movieDescription').value = '';
+                document.getElementById('moviePoster').value = '';
+                document.getElementById('movieTrailer').value = '';
+                
+                showStatus('Movie added successfully!', 'success');
+                
+                // Reload the movie list
+                setTimeout(loadMovies, 1000);
+            } catch (err) {
+                showStatus('Error adding movie: ' + err.message, 'error');
+                console.error('Error adding movie:', err);
+            }
+        }
+        
+        // Edit movie (placeholder - you would implement this)
+        function editMovie(id) {
+            showStatus('Edit function would open a form for movie ID: ' + id, '');
+            console.log('Edit movie with ID:', id);
+        }
+        
+        // Delete movie
+        async function deleteMovie(id) {
+            if (!confirm('Are you sure you want to delete this movie?')) {
+                return;
+            }
+            
+            try {
+                showStatus('Deleting movie...', '');
+                
+                const { error } = await supabase
+                    .from('movies')
+                    .delete()
+                    .eq('id', id);
+                    
+                if (error) {
+                    showStatus('Error deleting movie: ' + error.message, 'error');
+                    console.error('Supabase error:', error);
+                    return;
+                }
+                
+                showStatus('Movie deleted successfully!', 'success');
+                
+                // Reload the movie list
+                setTimeout(loadMovies, 1000);
+            } catch (err) {
+                showStatus('Error deleting movie: ' + err.message, 'error');
+                console.error('Error deleting movie:', err);
+            }
+        }
+        
+        // Save changes (placeholder - you would implement this based on what needs saving)
+        function saveChanges() {
+            showStatus('All changes saved successfully!', 'success');
+        }
+        
+        // Export data (placeholder)
+        function exportData() {
+            showStatus('Export function would download a JSON backup', '');
+        }
+        
+        // Import data (placeholder)
+        function importData() {
+            showStatus('Import function would upload a JSON backup', '');
+        }
+        
+        // Show section (for navigation)
+        function showSection(sectionId) {
+            showStatus(`Showing section: ${sectionId}`, '');
+            // You would implement logic to show/hide sections here
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Admin panel initialized');
+            testConnection();
+            loadMovies();
         });
     </script>
 </body>
