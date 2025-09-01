@@ -1,669 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>West Central Movies</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #0a0a1a;
-            color: #f5f5f5;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* Header Styles */
-        header {
-            background: linear-gradient(to right, #0a0a1a, #1a1a3a);
-            padding: 20px 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .logo-placeholder {
-            width: 280px;
-            height: 80px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px dashed rgba(255, 255, 255, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 14px;
-            border-radius: 8px;
-        }
-        
-        .logo-placeholder i {
-            margin-right: 10px;
-            font-size: 24px;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-        
-        nav ul li {
-            margin-left: 25px;
-        }
-        
-        nav ul li a {
-            color: #f5f5f5;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 16px;
-            padding: 10px 15px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-        
-        nav ul li a:hover, 
-        nav ul li a.active {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffcc00;
-        }
-        
-        /* Hero Section */
-        .hero {
-            height: 500px;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3') no-repeat center center/cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        .hero-content h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        
-        .hero-content p {
-            font-size: 20px;
-            max-width: 700px;
-            margin: 0 auto 30px;
-        }
-        
-        .btn {
-            display: inline-block;
-            background: #ffcc00;
-            color: #0a0a1a;
-            padding: 12px 30px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .btn:hover {
-            background: #ffdd33;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 204, 0, 0.4);
-        }
-        
-        /* Section Styles */
-        .section-title {
-            text-align: center;
-            margin-bottom: 40px;
-            font-size: 32px;
-            color: #ffcc00;
-            position: relative;
-            padding-bottom: 15px;
-        }
-        
-        .section-title:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: #ffcc00;
-            border-radius: 2px;
-        }
-        
-        .movies-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-        
-        .movie-card {
-            background: #1a1a3a;
-            border-radius: 10px;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .movie-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-        }
-        
-        .movie-poster {
-            height: 350px;
-            overflow: hidden;
-        }
-        
-        .movie-poster img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .movie-card:hover .movie-poster img {
-            transform: scale(1.1);
-        }
-        
-        .movie-info {
-            padding: 20px;
-        }
-        
-        .movie-title {
-            font-size: 18px;
-            margin-bottom: 10px;
-            color: #ffcc00;
-        }
-        
-        .movie-details {
-            color: #aaa;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-        
-        .movie-description {
-            color: #ddd;
-            font-size: 14px;
-            margin-bottom: 15px;
-            display: none;
-        }
-        
-        .movie-btn {
-            display: block;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            padding: 8px 0;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        
-        .movie-btn:hover {
-            background: #ffcc00;
-            color: #0a0a1a;
-        }
-        
-        /* Loading Indicator */
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #ffcc00;
-            font-size: 18px;
-        }
-        
-        .loading i {
-            display: block;
-            font-size: 36px;
-            margin-bottom: 15px;
-            animation: spin 1.5s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Footer */
-        footer {
-            background: #0c0c1e;
-            padding: 40px 0 20px;
-            margin-top: 40px;
-        }
-        
-        .footer-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin-bottom: 30px;
-        }
-        
-        .footer-section {
-            flex: 1;
-            min-width: 250px;
-            margin-bottom: 30px;
-        }
-        
-        .footer-section h3 {
-            color: #ffcc00;
-            margin-bottom: 20px;
-            font-size: 20px;
-        }
-        
-        .footer-section p, 
-        .footer-section li {
-            color: #aaa;
-            margin-bottom: 10px;
-        }
-        
-        .footer-section ul {
-            list-style: none;
-        }
-        
-        .footer-section a {
-            color: #aaa;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-section a:hover {
-            color: #ffcc00;
-        }
-        
-        .social-icons a {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            text-align: center;
-            line-height: 40px;
-            margin-right: 10px;
-            transition: all 0.3s ease;
-        }
-        
-        .social-icons a:hover {
-            background: #ffcc00;
-            color: #0a0a1a;
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #aaa;
-            font-size: 14px;
-        }
-        
-        /* Admin Panel Link */
-        .admin-panel {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #ffcc00;
-            color: #0a0a1a;
-            padding: 10px 15px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            z-index: 100;
-            transition: all 0.3s ease;
-        }
-        
-        .admin-panel:hover {
-            background: #ffdd33;
-            transform: translateY(-3px);
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 900px) {
-            .header-content {
-                flex-direction: column;
-            }
-            
-            .logo-placeholder {
-                margin-bottom: 20px;
-            }
-            
-            nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            nav ul li {
-                margin: 5px 10px;
-            }
-            
-            .hero-content h1 {
-                font-size: 36px;
-            }
-            
-            .hero-content p {
-                font-size: 18px;
-            }
-        }
-        
-        @media (max-width: 600px) {
-            .hero {
-                height: 400px;
-            }
-            
-            .hero-content h1 {
-                font-size: 28px;
-            }
-            
-            .section-title {
-                font-size: 26px;
-            }
-            
-            .movies-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>West Central Movies</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #0a0a1a;
+      color: #f5f5f5;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+    }
+    header {
+      background: linear-gradient(to right, #0a0a1a, #1a1a3a);
+      padding: 20px 0;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    header h1 {
+      color: #ffcc00;
+      font-size: 36px;
+      margin: 0;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 28px;
+      color: #ffcc00;
+      margin: 40px 0 20px;
+    }
+    .schedule-img {
+      display: block;
+      max-width: 95%;
+      margin: 0 auto 50px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+    .movies-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+      gap: 25px;
+      padding: 0 20px 50px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .movie-card {
+      background: #1a1a3a;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform .3s ease;
+    }
+    .movie-card:hover {
+      transform: translateY(-5px);
+    }
+    .movie-poster img {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+    }
+    .movie-info {
+      padding: 15px;
+    }
+    .movie-title {
+      font-size: 18px;
+      margin: 0 0 10px;
+      color: #ffcc00;
+    }
+    .movie-description {
+      font-size: 14px;
+      color: #ccc;
+      margin-bottom: 10px;
+    }
+    .movie-btn {
+      display: inline-block;
+      text-decoration: none;
+      background: #ffcc00;
+      color: #0a0a1a;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background .3s;
+    }
+    .movie-btn:hover {
+      background: #ffdd33;
+    }
+    footer {
+      background: #0c0c1e;
+      padding: 20px;
+      text-align: center;
+      color: #aaa;
+      font-size: 14px;
+    }
+    .admin-panel {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ffcc00;
+      color: #0a0a1a;
+      padding: 10px 15px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+    .admin-panel:hover {
+      background: #ffdd33;
+      transform: translateY(-3px);
+    }
+  </style>
 </head>
 <body>
-    <!-- Header Section -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo-placeholder">
-                    <i class="fas fa-film"></i>
-                    <span>West Central Movies</span>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="#" class="active">Home</a></li>
-                        <li><a href="#now-showing">Now Showing</a></li>
-                        <li><a href="#new-this-week">New This Week</a></li>
-                        <li><a href="#coming-soon">Coming Soon</a></li>
-                        <li><a href="#contact">Contact Us</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </header>
+  <header>
+    <h1>West Central Movies</h1>
+  </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>West Central Movies</h1>
-            <p>Experience the magic of cinema with the latest blockbusters and indie favorites</p>
-            <a href="#now-showing" class="btn">See What's Playing</a>
-        </div>
-    </section>
+  <!-- Weekly Schedule -->
+  <section id="weekly-schedule">
+    <h2 class="section-title">This Week’s Schedule</h2>
+    <img id="scheduleImage" src="" alt="Weekly Movie Schedule" class="schedule-img">
+  </section>
 
-    <!-- Now Showing Section -->
-    <section id="now-showing" class="container">
-        <h2 class="section-title">Now Showing</h2>
-        <div class="movies-grid">
-            <div class="loading">
-                <i class="fas fa-spinner"></i>
-                <p>Loading movies...</p>
-            </div>
-        </div>
-    </section>
+  <!-- Coming Soon -->
+  <section id="coming-soon">
+    <h2 class="section-title">Coming Soon</h2>
+    <div class="movies-grid" id="comingSoonGrid"></div>
+  </section>
 
-    <!-- New This Week Section -->
-    <section id="new-this-week" class="container">
-        <h2 class="section-title">New This Week</h2>
-        <div class="movies-grid">
-            <div class="loading">
-                <i class="fas fa-spinner"></i>
-                <p>Loading movies...</p>
-            </div>
-        </div>
-    </section>
+  <footer>
+    <p>&copy; 2025 West Central Movies. All rights reserved.</p>
+  </footer>
 
-    <!-- Coming Soon Section -->
-    <section id="coming-soon" class="container">
-        <h2 class="section-title">Coming Soon</h2>
-        <div class="movies-grid">
-            <div class="loading">
-                <i class="fas fa-spinner"></i>
-                <p>Loading movies...</p>
-            </div>
-        </div>
-    </section>
+  <!-- Admin Panel Link -->
+  <a href="admin.html" class="admin-panel">
+    <i class="fas fa-cog"></i> Admin Panel
+  </a>
 
-    <!-- Contact Section -->
-    <section id="contact" class="container">
-        <h2 class="section-title">Contact Us</h2>
-        <div class="contact-form">
-            <form id="contactForm">
-                <div class="form-group">
-                    <label for="name">Your Name</label>
-                    <input type="text" id="name" placeholder="Enter your name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" placeholder="Enter your email" required>
-                </div>
-                <div class="form-group">
-                    <label for="subject">Subject</label>
-                    <input type="text" id="subject" placeholder="Enter subject" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Your Message</label>
-                    <textarea id="message" placeholder="Type your message here" required></textarea>
-                </div>
-                <button type="submit" class="btn">Send Message</button>
-            </form>
-        </div>
-    </section>
+  <script>
+    async function loadData() {
+      try {
+        const response = await fetch('movies.json');
+        const data = await response.json();
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>About Us</h3>
-                    <p>West Central Movies is your premier destination for the latest films in a state-of-the-art theater experience.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#now-showing">Now Showing</a></li>
-                        <li><a href="#new-this-week">New This Week</a></li>
-                        <li><a href="#coming-soon">Coming Soon</a></li>
-                        <li><a href="#contact">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Contact Info</h3>
-                    <p><i class="fas fa-map-marker-alt"></i> 123 Movie Lane, Cinema City</p>
-                    <p><i class="fas fa-phone"></i> (555) 123-4567</p>
-                    <p><i class="fas fa-envelope"></i> info@westcentralmovies.com</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Follow Us</h3>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2023 West Central Movies. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Admin Panel Link -->
-    <a href="admin.html" class="admin-panel">
-        <i class="fas fa-cog"></i> Admin Panel
-    </a>
-
-    <script>
-        // Function to fetch and display movies from the JSON file
-        async function loadMovies() {
-            try {
-                // Show loading indicators
-                document.querySelectorAll('.loading').forEach(loader => {
-                    loader.style.display = 'block';
-                });
-                
-                // Fetch the movies.json file
-                const response = await fetch('movies.json');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                
-                const data = await response.json();
-                
-                // Display movies in their respective sections
-                displayMovies(data.now_showing, 'now-showing');
-                displayMovies(data.new_this_week, 'new-this-week');
-                displayMovies(data.coming_soon, 'coming-soon');
-                
-                console.log('Movies loaded successfully from JSON');
-            } catch (error) {
-                console.error('Error loading movie data:', error);
-                // Fallback to hardcoded movies if JSON fails to load
-                loadFallbackMovies();
-            }
+        // Load schedule image
+        const scheduleImage = document.getElementById('scheduleImage');
+        if (data.weekly_schedule && data.weekly_schedule.image_url) {
+          scheduleImage.src = data.weekly_schedule.image_url;
+        } else {
+          scheduleImage.alt = "No schedule uploaded yet.";
         }
 
-        // Function to display movies in a section
-        function displayMovies(movies, sectionId) {
-            const section = document.getElementById(sectionId);
-            if (!section) return;
-            
-            const moviesGrid = section.querySelector('.movies-grid');
-            if (!moviesGrid) return;
-            
-            // Clear existing content including loaders
-            moviesGrid.innerHTML = '';
-            
-            // Check if there are movies to display
-            if (!movies || movies.length === 0) {
-                moviesGrid.innerHTML = '<p class="loading">No movies found. Check back soon!</p>';
-                return;
-            }
-            
-            // Add each movie to the section
-            movies.forEach(movie => {
-                const movieElement = createMovieElement(movie);
-                moviesGrid.appendChild(movieElement);
-            });
-        }
-
-        // Function to create a movie element
-        function createMovieElement(movie) {
-            const movieCard = document.createElement('div');
-            movieCard.className = 'movie-card';
-            
-            movieCard.innerHTML = `
-                <div class="movie-poster">
-                    <img src="${movie.poster || 'https://images.unsplash.com/photo-1594909122845-11baa439b7bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600&q=80'}" alt="${movie.title}">
-                </div>
-                <div class="movie-info">
-                    <h3 class="movie-title">${movie.title}</h3>
-                    <p class="movie-details">${movie.genre || 'Movie'} • ${movie.duration || 'Duration not specified'}</p>
-                    <p class="movie-description">${movie.description || 'Description not available.'}</p>
-                    <a href="#" class="movie-btn">View Details & Times</a>
-                </div>
+        // Load coming soon movies
+        const comingSoonGrid = document.getElementById('comingSoonGrid');
+        comingSoonGrid.innerHTML = '';
+        if (data.coming_soon && data.coming_soon.length > 0) {
+          data.coming_soon.forEach(movie => {
+            const card = document.createElement('div');
+            card.className = 'movie-card';
+            card.innerHTML = `
+              <div class="movie-poster">
+                <img src="${movie.poster}" alt="${movie.title}">
+              </div>
+              <div class="movie-info">
+                <h3 class="movie-title">${movie.title}</h3>
+                <p class="movie-description">${movie.description}</p>
+                ${movie.trailer ? `<a href="${movie.trailer}" target="_blank" class="movie-btn">Watch Trailer</a>` : ''}
+              </div>
             `;
-            
-            return movieCard;
+            comingSoonGrid.appendChild(card);
+          });
+        } else {
+          comingSoonGrid.innerHTML = '<p>No upcoming movies listed.</p>';
         }
+      } catch (err) {
+        console.error('Failed to load data:', err);
+      }
+    }
 
-        // Fallback function if JSON fails to load
-        function loadFallbackMovies() {
-            console.log('Loading fallback movies');
-            
-            // Sample fallback data
-            const fallbackData = {
-                now_showing: [
-                    {
-                        title: "Spider-Man: Across the Spider-Verse",
-                        poster: "https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600&q=80",
-                        description: "Miles Morales catapults across the Multiverse, where he encounters a team of Spider-People charged with protecting its very existence.",
-                        duration: "2h 20m",
-                        genre: "Animation, Action, Adventure"
-                    }
-                ],
-                new_this_week: [
-                    {
-                        title: "Oppenheimer",
-                        poster: "https://images.unsplash.com/photo-1682687980961-78fa83781450?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600&q=80",
-                        description: "The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.",
-                        duration: "3h",
-                        genre: "Biography, Drama, History"
-                    }
-                ],
-                coming_soon: [
-                    {
-                        title: "Mission: Impossible - Dead Reckoning Part One",
-                        poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600&q=80",
-                        description: "Ethan Hunt and his IMF team must track down a dangerous weapon before it falls into the wrong hands.",
-                        duration: "2h 43m",
-                        genre: "Action, Adventure, Thriller"
-                    }
-                ]
-            };
-            
-            // Display fallback movies
-            displayMovies(fallbackData.now_showing, 'now-showing');
-            displayMovies(fallbackData.new_this_week, 'new-this-week');
-            displayMovies(fallbackData.coming_soon, 'coming-soon');
-        }
-
-        // Simple form validation
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for your message! We will get back to you soon.');
-            this.reset();
-        });
-        
-        // Active navigation link highlighting
-        const sections = document.querySelectorAll('section');
-        const navLinks = document.querySelectorAll('nav a');
-        
-        window.addEventListener('scroll', function() {
-            let current = '';
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                
-                if (pageYOffset >= (sectionTop - 200)) {
-                    current = section.getAttribute('id');
-                }
-            });
-            
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').substring(1) === current) {
-                    link.classList.add('active');
-                }
-            });
-        });
-
-        // Load movies when the page is ready
-        document.addEventListener('DOMContentLoaded', function() {
-            loadMovies();
-        });
-    </script>
+    document.addEventListener('DOMContentLoaded', loadData);
+  </script>
 </body>
 </html>
