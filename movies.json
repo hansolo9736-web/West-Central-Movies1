@@ -1,84 +1,22 @@
 {
-  "last_updated": "2025-08-31T20:42:24.856Z",
+  "last_updated": "2025-09-01",
   "cinema_info": {
     "name": "West Central Movies",
     "address": "123 Movie Lane, Cinema City",
     "phone": "(555) 123-4567",
     "email": "info@westcentralmovies.com"
   },
-  "now_showing": [
-    {
-      "id": 1,
-      "title": "Spider-Man: Across the Spider-Verse",
-      "poster_url": "https://images.unsplash.com/photo-1635805737707-575885ab0820?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600&q=80",
-      "trailer_url": "https://www.youtube.com/embed/shW9i6k8cB0",
-      "description": "Miles Morales catapults across the Multiverse, where he encounters a team of Spider-People charged with protecting its very existence.",
-      "duration": "2h 20m",
-      "genre": "Animation, Action, Adventure",
-      "rating": "PG",
-      "status": "now_showing"
-    },
-    {
-      "id": 2,
-      "title": "Barbie",
-      "poster_url": "https://images.unsplash.com/photo-1682686581427-7c80ab60e3f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600&q=80",
-      "trailer_url": "https://www.youtube.com/embed/pBk4NYhWNMM",
-      "description": "Barbie suffers a crisis that leads her to question her world and her existence.",
-      "duration": "1h 54m",
-      "genre": "Comedy, Adventure, Fantasy",
-      "rating": "PG-13",
-      "status": "now_showing"
-    },
-    {
-      "id": 1756672893774,
-      "title": "Test 1",
-      "poster": "https://www.imdb.com/title/tt6604188/mediaviewer/rm1844034818/?ref_=tt_ov_i",
-      "trailer": "https://www.imdb.com/video/vi2988754969/?playlistId=tt6604188&ref_=tt_ov_pr_ov_vi",
-      "description": "Test 1 Description here",
-      "duration": "120 min",
-      "genre": "action",
-      "rating": "PG-13",
-      "status": "now_showing",
-      "schedules": []
-    }
-  ],
-  "new_this_week": [
-    {
-      "id": 3,
-      "title": "Oppenheimer",
-      "poster_url": "https://images.unsplash.com/photo-1682687980961-78fa83781450?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600&q=80",
-      "trailer_url": "https://www.youtube.com/embed/uYPbbksJxIg",
-      "description": "The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.",
-      "duration": "3h",
-      "genre": "Biography, Drama, History",
-      "rating": "R",
-      "status": "new_this_week"
-    }
-  ],
+  "weekly_schedule": {
+    "image_url": "https://example.com/schedule.png"
+  },
   "coming_soon": [
     {
-      "id": 4,
-      "title": "Mission: Impossible - Dead Reckoning Part One",
-      "poster_url": "https://images.unsplash.com/photo-1534447677768-be436bb09401?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600&q=80",
-      "trailer_url": "https://www.youtube.com/embed/avz06PDqDbM",
-      "description": "Ethan Hunt and his IMF team must track down a dangerous weapon before it falls into the wrong hands.",
-      "duration": "2h 43m",
-      "genre": "Action, Adventure, Thriller",
-      "rating": "PG-13",
-      "status": "coming_soon",
-      "release_date": "2023-07-25"
-    },
-    {
-      "id": 5,
+      "id": 1,
       "title": "Dune: Part Two",
-      "poster_url": "https://images.unsplash.com/photo-1489599851395-3f6d0e2c50b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=600&q=80",
-      "trailer_url": "https://www.youtube.com/embed/U2Qp5pL3ovA",
+      "poster": "https://images.unsplash.com/photo-1489599851395-3f6d0e2c50b6",
+      "trailer": "https://www.youtube.com/watch?v=U2Qp5pL3ovA",
       "description": "Paul Atreides continues his journey on Arrakis, embracing his destiny as the Muad'Dib.",
-      "duration": "2h 35m",
-      "genre": "Sci-Fi, Adventure",
-      "rating": "PG-13",
-      "status": "coming_soon",
-      "release_date": "2023-11-15"
+      "release_date": "2025-11-15"
     }
   ]
 }
